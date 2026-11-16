@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Te extraño</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Nunito:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  /* Un solo mundo visual: noche color vino, un corazón que late en el centro, todo lo demás acompaña. */
+  :root {
+    color-scheme: dark;
+    --noche: #2a0716;
+    --vino: #6d0f33;
+    --corazon: #ff4f7b;
+    --brillo: #ffc2d1;
+    --texto: #ffeef2;
+    --suave: #f3a9bd;
+    --f-display: "Caveat", "Segoe Script", "Bradley Hand", cursive;
+    --f-body: "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; }
+
+  html, body { height: 100%; }
+
+  body {
+    background: radial-gradient(120% 90% at 50% 38%, var(--vino) 0%, var(--noche) 70%) var(--noche);
+    color: var(--texto);
+    font-family: var(--f-body);
+    overflow: hidden;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  main {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(14px, 3.2vh, 28px);
+    padding: 24px 20px;
+    text-align: center;
+  }
+
+  h1 {
+    font-family: var(--f-display);
+    font-weight: 700;
+    font-size: clamp(3.4rem, 17vw, 6.5rem);
+    line-height: 0.95;
+    text-wrap: balance;
+    text-shadow: 0 4px 30px rgba(255, 79, 123, 0.45);
+  }
+
+  .heart-btn {
+    appearance: none;
+    border: 0;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+    width: clamp(150px, 46vw, 230px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    filter: drop-shadow(0 12px 34px rgba(255, 79, 123, 0.55));
+  }
+  .heart-btn:focus-visible { outline: 3px solid var(--brillo); outline-offset: 6px; }
+  .heart-btn svg { width: 100%; height: 100%; animation: latido 1.5s ease-in-out infinite; transform-origin: 50% 55%; }
+  .heart-btn.pop svg { animation: pop 0.28s ease-out; }
+
+  @keyframes latido {
+    0%, 100% { transform: scale(1); }
+    12% { transform: scale(1.09); }
+    24% { transform: scale(1); }
+    36% { transform: scale(1.06); }
+    50% { transform: scale(1); }
+  }
+  @keyframes pop {
+    0% { transform: scale(0.86); }
+    60% { transform: scale(1.16); }
+    100% { transform: scale(1); }
+  }
+
+  .mensaje {
+    max-width: 22ch;
+    font-size: clamp(1.05rem, 4.6vw, 1.3rem);
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--suave);
+    text-wrap: balance;
+  }
+
+  .contador {
+    font-family: var(--f-display);
+    font-weight: 600;
+    font-size: clamp(2rem, 9vw, 3rem);
+    line-height: 1;
+    min-height: 1em;
+    color: var(--texto);
+    font-variant-numeric: tabular-nums;
+  }
+  .contador b { color: var(--corazon); font-weight: 700; }
+
+  /* Corazones que suben con cada tap */
+  .vuela {
+    position: fixed;
+    left: 0; top: 0;
+    pointer-events: none;
+    font-size: var(--t, 28px);
+    line-height: 1;
+    color: var(--c, var(--corazon));
+    will-change: transform, opacity;
+    animation: subir var(--d, 1.6s) ease-out forwards;
+  }
+  @keyframes subir {
+    0%   { transform: translate(var(--x), var(--y)) scale(0.4) rotate(0deg); opacity: 0; }
+    15%  { opacity: 1; }
+    100% { transform: translate(calc(var(--x) + var(--dx)), calc(var(--y) - 60vh)) scale(1.15) rotate(var(--r)); opacity: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .heart-btn svg, .heart-btn.pop svg { animation: none; }
+    .vuela { animation-duration: 0.9s; }
+  }
+</style>
+</head>
+<body>
+<main id="zona">
+  <h1>Te extraño</h1>
+
+  <button class="heart-btn" id="corazon" type="button" aria-label="Sumar un beso">
+    <svg viewBox="0 0 100 100" aria-hidden="true">
+      <defs>
+        <radialGradient id="g" cx="35%" cy="28%" r="80%">
+          <stop offset="0%" stop-color="#ff9db4"/>
+          <stop offset="45%" stop-color="#ff4f7b"/>
+          <stop offset="100%" stop-color="#d81e56"/>
+        </radialGradient>
+      </defs>
+      <path fill="url(#g)" d="M50 88 C22 66 8 50 8 33 C8 20 18 11 30 11 C38 11 45 15 50 23 C55 15 62 11 70 11 C82 11 92 20 92 33 C92 50 78 66 50 88 Z"/>
+      <ellipse cx="31" cy="29" rx="9" ry="6" fill="#fff" opacity="0.28" transform="rotate(-28 31 29)"/>
+    </svg>
+  </button>
+
+  <p class="mensaje">Cada tap es un beso que te voy a dar cuando te vea</p>
+
+  <p class="contador" id="contador" aria-live="polite">Tocá el corazón</p>
+</main>
+
+<script>
+(function () {
+  var CLAVE = "besos-te-extrano";
+  var besos = 0;
+  try { besos = parseInt(localStorage.getItem(CLAVE), 10) || 0; } catch (e) {}
+
+  var zona = document.getElementById("zona");
+  var boton = document.getElementById("corazon");
+  var contador = document.getElementById("contador");
+  var colores = ["#ff4f7b", "#ff7d9c", "#ffc2d1", "#ff2e63", "#ffffff"];
+
+  function pintar() {
+    if (besos === 0) { contador.textContent = "Tocá el corazón"; return; }
+    contador.innerHTML = "Te debo <b>" + besos.toLocaleString("es-AR") + "</b> " + (besos === 1 ? "beso" : "besos");
+  }
+
+  function volar(x, y) {
+    var h = document.createElement("span");
+    h.className = "vuela";
+    h.textContent = "♥";
+    h.style.setProperty("--x", (x - 14) + "px");
+    h.style.setProperty("--y", (y - 14) + "px");
+    h.style.setProperty("--dx", Math.round(Math.random() * 160 - 80) + "px");
+    h.style.setProperty("--r", Math.round(Math.random() * 70 - 35) + "deg");
+    h.style.setProperty("--t", Math.round(22 + Math.random() * 24) + "px");
+    h.style.setProperty("--d", (1.3 + Math.random() * 0.9).toFixed(2) + "s");
+    h.style.setProperty("--c", colores[Math.floor(Math.random() * colores.length)]);
+    document.body.appendChild(h);
+    h.addEventListener("animationend", function () { h.remove(); });
+  }
+
+  function sumar(x, y) {
+    besos += 1;
+    try { localStorage.setItem(CLAVE, String(besos)); } catch (e) {}
+    pintar();
+    volar(x, y);
+    boton.classList.remove("pop");
+    void boton.offsetWidth;
+    boton.classList.add("pop");
+    if (navigator.vibrate) { try { navigator.vibrate(12); } catch (e) {} }
+  }
+
+  // Un tap en cualquier parte de la pantalla cuenta
+  zona.addEventListener("pointerdown", function (ev) {
+    sumar(ev.clientX, ev.clientY);
+  });
+
+  // Teclado: Enter o espacio sobre el corazón
+  boton.addEventListener("keydown", function (ev) {
+    if (ev.key === "Enter" || ev.key === " ") {
+      ev.preventDefault();
+      var r = boton.getBoundingClientRect();
+      sumar(r.left + r.width / 2, r.top + r.height / 2);
+    }
+  });
+
+  boton.addEventListener("animationend", function () { boton.classList.remove("pop"); });
+
+  pintar();
+})();
+</script>
+</body>
+</html>
